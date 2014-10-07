@@ -28,7 +28,7 @@ import parser.naver.NaverTarget;
  */
 public class NaverConnector extends Connector{
 	private NaverTarget _target;
-	private final String _API_KEY = "Input Your API Key";
+	private final String _API_KEY = "a0504c8ef72934d16be6d2a29e5b69aa";
 	private final String _BASE_URL = "http://openapi.naver.com/search?target=%s";
 	private String _xmlData;
 	

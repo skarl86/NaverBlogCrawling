@@ -21,13 +21,14 @@ import parser.naver.NaverBlog;
  */
 public class Application {
 	public static void main(String[] args){
+		String keyword = "맛집";
 		Connector conn = Connector.getInstance(Connector.Target.NAVER_BLOG);
-		conn.connect("맛집");
+		conn.connect(keyword);
 		ArrayList<Map<String, String>> results = conn.getResults();
 		int count = 0;
 		BufferedWriter bw ;
 		try {
-			bw = new BufferedWriter(new FileWriter("output.txt"));
+			bw = new BufferedWriter(new FileWriter(keyword + ".txt"));
 			while(( results = conn.nextResult() ) != null){
 				for(Map<String, String> result : results){
 					bw.write((count++) + "\t" + result.get(NaverBlog.FieldName.BLOG_CONTENT.value));
