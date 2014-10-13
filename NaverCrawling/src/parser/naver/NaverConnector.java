@@ -8,6 +8,7 @@ package parser.naver;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -195,7 +196,7 @@ public class NaverConnector extends Connector{
 			doc = Jsoup.connect(src).get();
 			result.put(NaverBlog.FieldName.BLOG_DATE.value, doc.getElementsByClass("_postAddDate").text().trim().replaceAll("/", "-"));
 			Element el = doc.getElementById("post-view" + logNo);
-			String content = el.text().trim() + "\n";// + _getAddressInBlog(el);
+			String content = el.text().trim(); //+ "\n" + _getAddressInBlog(el);
 			result.put(NaverBlog.FieldName.BLOG_CONTENT.value, content);
 //			result.put(NaverBlog.FieldName.BLOG_CONTENT.value, doc.getElementById("post-view" + logNo).text().trim());
 			result.put(NaverBlog.FieldName.BLOG_IMAGES.value, _getImageLinkOfBlog(logNo, doc));
@@ -204,6 +205,8 @@ public class NaverConnector extends Connector{
 			if(result.size() <= 0)
 				result = null;
 			return result;
+		} catch (SocketTimeoutException e){
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
