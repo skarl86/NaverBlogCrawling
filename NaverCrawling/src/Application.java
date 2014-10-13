@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,12 +23,32 @@ import parser.naver.NaverBlog;
  * @Author 		: NCri
  */
 public class Application {
+	public final static String INPUT_FILE_NAME = "input.txt";
+	
 	public static void main(String[] args){
-		List<String> keywords = new ArrayList<String>();
-		keywords.add("세월호");
+		List<String> keywords = readKeyword();
+		
 		searchingWithKeyword(keywords);
 	}
-	
+	public static List readKeyword(){
+		BufferedReader br;
+		List<String> keywords = new ArrayList<String>();
+		String line;
+		try{
+			br = new BufferedReader(new FileReader(INPUT_FILE_NAME));
+			while( (line  = br.readLine()) != null){
+				for(String keyword : line.split(",")){
+					keyword = keyword.trim();
+					keywords.add(keyword);
+				}
+			}
+			br.close();
+		}catch (IOException e){
+			e.printStackTrace();
+		}
+		
+		return keywords;
+	}
 	public static void searchingWithKeyword(List<String> keywords){
 		for(String keyword : keywords){
 			Connector conn = Connector.getInstance(Connector.Target.NAVER_BLOG);
